@@ -1,6 +1,5 @@
 package com.mvc.models;
 
-import java.util.ArrayList;
 
 import jakarta.persistence.*;
 
@@ -21,11 +20,7 @@ public class GestoresModel {
 	private int edad;
 	private double salario;
 	
-//	Lista de clientes con id_gestor
-//	LAZY consulta la lista en el momento que se necesita
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id_gestor")
-	private ArrayList<ClientesModel> clientes;
-	
+
 //	GETTERS & SETTERS
 	public long getId() {
 		return id;
@@ -63,13 +58,8 @@ public class GestoresModel {
 	public void setSalario(double salario) {
 		this.salario = salario;
 	}
-//	public ArrayList<ClientesModel> getClientes() {
-//		return clientes;
-//	}
-//	public void setClientes(ArrayList<ClientesModel> clientes) {
-//		this.clientes = clientes;
-//	}
-//	
+
+
 	
 	
 }

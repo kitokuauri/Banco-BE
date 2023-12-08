@@ -4,8 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 
-import java.util.ArrayList;
-
 import jakarta.persistence.*;
 
 
@@ -27,18 +25,6 @@ public class ClientesModel {
 	private String nombre;
 	private String apellido;
 	private String email;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id_remitente")
-	private ArrayList<MensajesModel> rem_mensajes;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatario")
-	private ArrayList<MensajesModel> des_mensajes;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id_remitente")
-	private ArrayList<TransferenciasModel> rem_transferencias;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatario")
-	private ArrayList<TransferenciasModel> des_transferencias;
 	
 //	GETETERS & SETTERS
 	public long getId() {
@@ -71,31 +57,7 @@ public class ClientesModel {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-//	public ArrayList<MensajesModel> getRem_mensajes() {
-//		return rem_mensajes;
-//	}
-//	public void setRem_mensajes(ArrayList<MensajesModel> rem_mensajes) {
-//		this.rem_mensajes = rem_mensajes;
-//	}
-//	public ArrayList<MensajesModel> getDes_mensajes() {
-//		return des_mensajes;
-//	}
-//	public void setDes_mensajes(ArrayList<MensajesModel> des_mensajes) {
-//		this.des_mensajes = des_mensajes;
-//	}
-//	public ArrayList<TransferenciasModel> getRem_transferencias() {
-//		return rem_transferencias;
-//	}
-//	public void setRem_transferencias(ArrayList<TransferenciasModel> rem_transferencias) {
-//		this.rem_transferencias = rem_transferencias;
-//	}
-//	public ArrayList<TransferenciasModel> getDes_transferencias() {
-//		return des_transferencias;
-//	}
-//	public void setDes_transferencias(ArrayList<TransferenciasModel> des_transferencias) {
-//		this.des_transferencias = des_transferencias;
-//	}
-//	
+
 
 
 }
