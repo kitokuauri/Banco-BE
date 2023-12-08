@@ -53,7 +53,7 @@ public class GestoresController {
 	public void eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.gestoresService.eliminarGestor(id);
 		if(!resultado) {
-			System.out.println("No se pudo eliminar el gestor con id " + id);
+			System.out.println("No se pudo eliminar el gestor");
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class GestoresController {
 		boolean resultado = this.gestoresService.actualizarGestor(id, cambios);
 		
 		if(!resultado) {
-			System.out.println("No se pudo actualizar el gestor con id " + id);
+			System.out.println("No se pudo actualizar el gestor");
 		}
 	}
 	

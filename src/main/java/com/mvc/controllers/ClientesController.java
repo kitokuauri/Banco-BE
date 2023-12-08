@@ -44,20 +44,16 @@ public class ClientesController {
 	@DeleteMapping(path="/{id}")
 	public void eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.clientesService.eliminarCliente(id);
-		if(resultado) {
-			System.out.println("Se eliminó el cliente con id " + id);
-		} else {
-			System.out.println("No se pudo eliminar el cliente con id " + id);
+		if(!resultado) {
+			System.out.println("No se pudo eliminar el cliente");
 		}
 	}
 	
 	@PatchMapping(path = "/{id}")
 	public void actualizarCliente(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.clientesService.actualizarCliente(id, cambios);
-		if(resultado) {
-			System.out.println("Se actualizó el cliente con id " + id);
-		} else {
-			System.out.println("No se pudo actualizar el cliente con id " + id);
+		if(!resultado) {
+			System.out.println("No se pudo actualizar el cliente");
 		}
 	}
 	

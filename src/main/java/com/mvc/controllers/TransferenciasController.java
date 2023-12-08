@@ -48,20 +48,16 @@ public class TransferenciasController {
 	@DeleteMapping(path="/{id}")
 	public void eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.transferenciasService.eliminarTransferencia(id);
-		if(resultado) {
-			System.out.println( "Se eliminó la transferencia con id " + id);
-		} else {
-			System.out.println("No se pudo eliminar la transferencia con id " + id);
+		if(!resultado) {
+			System.out.println("No se pudo eliminar la transferencia");
 		}
 	}
 	
 	@PatchMapping(path = "/{id}")
 	public void actualizarTransferencia(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.transferenciasService.actualizarTransferencia(id, cambios);
-		if(resultado) {
-			System.out.println( "Se actualizó la transferencia con id " + id);
-		} else {
-			System.out.println("No se pudo actualizar la transferencia con id " + id);
+		if(!resultado) {
+			System.out.println("No se pudo actualizar la transferencia");
 		}
 	}
 	

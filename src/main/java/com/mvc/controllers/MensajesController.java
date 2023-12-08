@@ -46,22 +46,18 @@ public class MensajesController {
 	}
 	
 	@DeleteMapping(path="/{id}")
-	public String eliminarPorId(@PathVariable("id") long id) {
+	public void eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.mensajesService.eliminarMensaje(id);
-		if(resultado) {
-			return "Se eliminó el mensaje con id " + id;
-		} else {
-			return "No se pudo eliminar el mensaje con id " + id;
+		if(!resultado) {
+			System.out.println("No se pudo eliminar el mensaje");
 		}
 	}
 	
 	@PatchMapping(path = "/{id}")
 	public void actualizarMensaje(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.mensajesService.actualizarMensaje(id, cambios);
-		if(resultado) {
-			System.out.println( "Se actualizó el mensaje con id " + id);
-		} else {
-			System.out.println("No se pudo actualizar el mensaje con id " + id);
+		if(!resultado) {
+			System.out.println("No se pudo eliminar el mensaje");
 		}
 	}
 	
