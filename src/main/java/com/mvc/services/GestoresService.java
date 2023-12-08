@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.mvc.models.GestoresModel;
 import com.mvc.repositories.GestoresRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class GestoresService {
@@ -26,6 +25,10 @@ public class GestoresService {
 //	cuando tratamos con id => clase Optional
 	public Optional<GestoresModel> obtenerPorId(long id) {
 		return gestoresRepository.findById(id);
+	}
+	
+	public ArrayList<GestoresModel> obtenerPorNombre(String nombre){
+		return gestoresRepository.findByNombre(nombre);
 	}
 	
 	public ArrayList<GestoresModel> obtenerGestores(){
@@ -45,35 +48,39 @@ public class GestoresService {
 		}
 	}
 	
-	public GestoresModel actualizarGestor(long id, Map<String, Object> cambios) {
-        Optional<GestoresModel> gestorExiste = gestoresRepository.findById(id);
-
-        if (gestorExiste.isPresent()) {
-            GestoresModel gestor = gestorExiste.get();
-
-            cambios.forEach((campo, valor) -> {
-                switch (campo) {
-                    case "nombre":
-                        gestor.setNombre((String) valor);
-                        break;
-                    case "apellido":
-                        gestor.setApellido((String) valor);
-                        break;
-                    case "edad":
-                        gestor.setEdad((int) valor);
-                        break;
-                    case "email":
-                        gestor.setEmail((String) valor);
-                        break;
-                    case "salario":
-                        gestor.setSalario((double) valor);
-                        break;
-                }
-            });
-
-            return gestoresRepository.save(gestor);
-        } else {
-            throw new EntityNotFoundException("Gestor no encontrado con ID: " + id);
+	public boolean actualizarGestor(long id, Map<String, Object> cambios) {
+        try {
+			Optional<GestoresModel> gestorExiste = gestoresRepository.findById(id);
+	
+	        if (gestorExiste.isPresent()) {
+	            GestoresModel gestor = gestorExiste.get();
+	
+	            cambios.forEach((campo, valor) -> {
+	                switch (campo) {
+	                    case "nombre":
+	                        gestor.setNombre((String) valor);
+	                        break;
+	                    case "apellido":
+	                        gestor.setApellido((String) valor);
+	                        break;
+	                    case "edad":
+	                        gestor.setEdad((int) valor);
+	                        break;
+	                    case "email":
+	                        gestor.setEmail((String) valor);
+	                        break;
+	                    case "salario":
+	                        gestor.setSalario((double) valor);
+	                        break;
+	                }
+	            });
+	            gestoresRepository.save(gestor);
+	            return true;
+	        } else {
+	        	return false;
+	        }
+        }catch (Exception err){
+        	return false;
         }
     }
 	

@@ -35,20 +35,36 @@ public class TransferenciasController {
 		return this.transferenciasService.obtenerPorId(id);
 	}
 	
+	@GetMapping(path="/r_query")
+	public ArrayList<TransferenciasModel> obtenerTransferenciaPorRemitente(@RequestParam("remitente") String remitente){
+		return this.transferenciasService.obtenerPorRemitente(remitente);
+	}
+	
+	@GetMapping(path="/d_query")
+	public ArrayList<TransferenciasModel> obtenerTransferenciaPorDestinatario(@RequestParam("destinatario") String destinatario){
+		return this.transferenciasService.obtenerPorDestinatario(destinatario);
+	}
+	
 	@DeleteMapping(path="/{id}")
-	public String eliminarPorId(@PathVariable("id") long id) {
+	public void eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.transferenciasService.eliminarTransferencia(id);
 		if(resultado) {
-			return "Se eliminó el usuario con id " + id;
+			System.out.println( "Se eliminó la transferencia con id " + id);
 		} else {
-			return "No se pudo eliminar el usuario con id " + id;
+			System.out.println("No se pudo eliminar la transferencia con id " + id);
 		}
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public TransferenciasModel actualizarTransferencia(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
-		return this.transferenciasService.actualizarTransferencia(id, cambios);
+	public void actualizarTransferencia(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+		boolean resultado = this.transferenciasService.actualizarTransferencia(id, cambios);
+		if(resultado) {
+			System.out.println( "Se actualizó la transferencia con id " + id);
+		} else {
+			System.out.println("No se pudo actualizar la transferencia con id " + id);
+		}
 	}
+	
 	
 	
 }

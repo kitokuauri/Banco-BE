@@ -36,19 +36,29 @@ public class ClientesController {
 		return this.clientesService.obtenerPorId(id);
 	}
 	
+	@GetMapping(path="/query")
+	public ArrayList<ClientesModel> obtenerClientesPorNombre(@RequestParam("nombre") String nombre){
+		return this.clientesService.obtenerPorNombre(nombre);
+	}
+	
 	@DeleteMapping(path="/{id}")
-	public String eliminarPorId(@PathVariable("id") long id) {
+	public void eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.clientesService.eliminarCliente(id);
 		if(resultado) {
-			return "Se eliminó el usuario con id " + id;
+			System.out.println("Se eliminó el cliente con id " + id);
 		} else {
-			return "No se pudo eliminar el usuario con id " + id;
+			System.out.println("No se pudo eliminar el cliente con id " + id);
 		}
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public ClientesModel actualizarCliente(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
-		return this.clientesService.actualizarCliente(id, cambios);
+	public void actualizarCliente(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+		boolean resultado = this.clientesService.actualizarCliente(id, cambios);
+		if(resultado) {
+			System.out.println("Se actualizó el cliente con id " + id);
+		} else {
+			System.out.println("No se pudo actualizar el cliente con id " + id);
+		}
 	}
 	
 

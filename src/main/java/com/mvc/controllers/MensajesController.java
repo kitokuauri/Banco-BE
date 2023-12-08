@@ -35,19 +35,34 @@ public class MensajesController {
 		return this.mensajesService.obtenerPorId(id);
 	}
 	
+	@GetMapping(path="/r_query")
+	public ArrayList<MensajesModel> obtenerMensajePorRemitente(@RequestParam("remitente") String remitente){
+		return this.mensajesService.obtenerPorRemitente(remitente);
+	}
+	
+	@GetMapping(path="/d_query")
+	public ArrayList<MensajesModel> obtenerMensajePorDestinatario(@RequestParam("destinatario") String destinatario){
+		return this.mensajesService.obtenerPorDestinatario(destinatario);
+	}
+	
 	@DeleteMapping(path="/{id}")
 	public String eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.mensajesService.eliminarMensaje(id);
 		if(resultado) {
-			return "Se eliminó el usuario con id " + id;
+			return "Se eliminó el mensaje con id " + id;
 		} else {
-			return "No se pudo eliminar el usuario con id " + id;
+			return "No se pudo eliminar el mensaje con id " + id;
 		}
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public MensajesModel actualizarMensaje(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
-		return this.mensajesService.actualizarMensaje(id, cambios);
+	public void actualizarMensaje(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+		boolean resultado = this.mensajesService.actualizarMensaje(id, cambios);
+		if(resultado) {
+			System.out.println( "Se actualizó el mensaje con id " + id);
+		} else {
+			System.out.println("No se pudo actualizar el mensaje con id " + id);
+		}
 	}
 	
 	

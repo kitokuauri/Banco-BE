@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mvc.models.GestoresModel;
@@ -43,19 +44,26 @@ public class GestoresController {
 		return this.gestoresService.obtenerPorId(id);
 	}
 	
+	@GetMapping(path="/query")
+	public ArrayList<GestoresModel> obtenerGestorPorNombre(@RequestParam("nombre") String nombre){
+		return this.gestoresService.obtenerPorNombre(nombre);
+	}
+	
 	@DeleteMapping(path="/{id}")
 	public void eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.gestoresService.eliminarGestor(id);
-		if(resultado) {
-			System.out.println("Se eliminó el usuario con id " + id);
-		} else {
-			System.out.println("No se pudo eliminar el usuario con id " + id);
+		if(!resultado) {
+			System.out.println("No se pudo eliminar el gestor con id " + id);
 		}
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public GestoresModel actualizarGestor(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
-		return this.gestoresService.actualizarGestor(id, cambios);
+	public void actualizarGestor(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+		boolean resultado = this.gestoresService.actualizarGestor(id, cambios);
+		
+		if(!resultado) {
+			System.out.println("No se pudo actualizar el gestor con id " + id);
+		}
 	}
 	
 }

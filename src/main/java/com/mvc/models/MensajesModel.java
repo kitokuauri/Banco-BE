@@ -1,5 +1,7 @@
 package com.mvc.models;
 
+import java.sql.Date;
+
 import jakarta.persistence.*;
 
 
@@ -25,6 +27,7 @@ public class MensajesModel {
 	private String remitente;
 	private String destinatario;
 	private String mensaje;
+	private Date fecha;
 	
 //	GETTERS & SETTERS
 	public long getId() {
@@ -62,6 +65,12 @@ public class MensajesModel {
 	}
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
+	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 }

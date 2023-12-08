@@ -1,5 +1,7 @@
 package com.mvc.models;
 
+import java.sql.Date;
+
 import jakarta.persistence.*;
 
 
@@ -25,6 +27,7 @@ public class TransferenciasModel {
 	private String remitente;
 	private String destinatario;
 	private double cantidad;
+	private Date fecha;
 	
 	@Column(unique=false, nullable=true)
 	private String mensaje;
@@ -71,6 +74,12 @@ public class TransferenciasModel {
 	}
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
+	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 }

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.mvc.repositories.ClientesRepository;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import com.mvc.models.ClientesModel;
 import com.mvc.models.GestoresModel;
 
@@ -31,6 +29,10 @@ public class ClientesService {
 		return clientesRepository.findById(id);
 	}
 	
+	public ArrayList<ClientesModel> obtenerPorNombre(String nombre){
+		return clientesRepository.findByNombre(nombre);
+	}
+	
 	public ArrayList<ClientesModel> obtenerClientes(){
 		return (ArrayList<ClientesModel>)clientesRepository.findAll();
 	}
@@ -41,7 +43,6 @@ public class ClientesService {
 				clientesRepository.deleteById(id);
 				return true;
 			} else {
-				System.out.println("El id seleccionado no existe.");
 				return false;
 			}
 		} catch(Exception err) {
@@ -49,36 +50,40 @@ public class ClientesService {
 		}
 	}
 	
-	public ClientesModel actualizarCliente(long id, Map<String, Object> cambios) {
-        Optional<ClientesModel> clienteExiste = clientesRepository.findById(id);
-
-        if (clienteExiste.isPresent()) {
-        	ClientesModel cliente = clienteExiste.get();
-
-            cambios.forEach((campo, valor) -> {
-                switch (campo) {
-                	case "id":
-                		cliente.setId((long) valor);
-                		break;
-                	case "id_gestor":
-                		cliente.setId_gestor((GestoresModel) valor);
-                		break;
-                    case "nombre":
-                    	cliente.setNombre((String) valor);
-                        break;
-                    case "apellido":
-                    	cliente.setApellido((String) valor);
-                        break;
-                    case "email":
-                    	cliente.setEmail((String) valor);
-                        break;
-                }
-            });
-            
-            return clientesRepository.save(cliente);
-        } else {
-            throw new EntityNotFoundException("Cliente no encontrado con ID: " + id);
-        }
+	public boolean actualizarCliente(long id, Map<String, Object> cambios) {
+		try {
+			Optional<ClientesModel> clienteExiste = clientesRepository.findById(id);
+	
+	        if (clienteExiste.isPresent()) {
+	        	ClientesModel cliente = clienteExiste.get();
+	
+	            cambios.forEach((campo, valor) -> {
+	                switch (campo) {
+	                	case "id":
+	                		cliente.setId((long) valor);
+	                		break;
+	                	case "id_gestor":
+	                		cliente.setId_gestor((GestoresModel) valor);
+	                		break;
+	                    case "nombre":
+	                    	cliente.setNombre((String) valor);
+	                        break;
+	                    case "apellido":
+	                    	cliente.setApellido((String) valor);
+	                        break;
+	                    case "email":
+	                    	cliente.setEmail((String) valor);
+	                        break;
+	                }
+	            });
+	            clientesRepository.save(cliente);
+	            return true;
+	        } else {
+	        	return false;
+	        }
+	    }catch (Exception err){
+	    	return false;
+	    }
 	}
  
 	
