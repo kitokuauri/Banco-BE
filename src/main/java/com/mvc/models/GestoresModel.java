@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 //Entity permite mapear la clase
 @Entity
-@Table(name= "gestores")
+@Table(name= "gestor")
 public class GestoresModel {
 
 //	atributos
@@ -63,7 +63,13 @@ public class GestoresModel {
 	public void setSalario(double salario) {
 		this.salario = salario;
 	}
-	
+//	public ArrayList<ClientesModel> getClientes() {
+//		return clientes;
+//	}
+//	public void setClientes(ArrayList<ClientesModel> clientes) {
+//		this.clientes = clientes;
+//	}
+//	
 	
 	
 }

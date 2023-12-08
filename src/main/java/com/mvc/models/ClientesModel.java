@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 
 //Entity permite mapear la clase
 @Entity
-@Table(name= "clientes")
+@Table(name= "cliente")
 public class ClientesModel {
 	
 //	atributos
@@ -21,7 +21,7 @@ public class ClientesModel {
 	private long id; 
 	
 //	Operaciones en cascada. DETACH => Deja a los clientes sin gestor si este es eliminado.
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name= "id_gestor", referencedColumnName = "id")
 	private GestoresModel id_gestor;
 	private String nombre;
@@ -71,7 +71,31 @@ public class ClientesModel {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+//	public ArrayList<MensajesModel> getRem_mensajes() {
+//		return rem_mensajes;
+//	}
+//	public void setRem_mensajes(ArrayList<MensajesModel> rem_mensajes) {
+//		this.rem_mensajes = rem_mensajes;
+//	}
+//	public ArrayList<MensajesModel> getDes_mensajes() {
+//		return des_mensajes;
+//	}
+//	public void setDes_mensajes(ArrayList<MensajesModel> des_mensajes) {
+//		this.des_mensajes = des_mensajes;
+//	}
+//	public ArrayList<TransferenciasModel> getRem_transferencias() {
+//		return rem_transferencias;
+//	}
+//	public void setRem_transferencias(ArrayList<TransferenciasModel> rem_transferencias) {
+//		this.rem_transferencias = rem_transferencias;
+//	}
+//	public ArrayList<TransferenciasModel> getDes_transferencias() {
+//		return des_transferencias;
+//	}
+//	public void setDes_transferencias(ArrayList<TransferenciasModel> des_transferencias) {
+//		this.des_transferencias = des_transferencias;
+//	}
+//	
 
 
 }
