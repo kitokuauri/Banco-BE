@@ -1,5 +1,7 @@
 package com.mvc.models;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.*;
 
 //Entity permite mapear la clase
@@ -18,6 +20,11 @@ public class GestoresModel {
 	private String email;
 	private int edad;
 	private double salario;
+	
+//	Lista de clientes con id_gestor
+//	LAZY consulta la lista en el momento que se necesita
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id_gestor")
+	private ArrayList<ClientesModel> clientes;
 	
 //	GETTERS & SETTERS
 	public long getId() {

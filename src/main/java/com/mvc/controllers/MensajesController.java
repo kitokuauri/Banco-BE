@@ -57,7 +57,7 @@ public class MensajesController {
 	public void actualizarMensaje(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.mensajesService.actualizarMensaje(id, cambios);
 		if(!resultado) {
-			System.out.println("No se pudo eliminar el mensaje");
+			System.out.println("No se pudo actualizar el mensaje");
 		}
 	}
 	

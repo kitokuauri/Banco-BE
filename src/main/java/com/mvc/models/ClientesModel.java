@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.*;
 
 
@@ -24,6 +26,18 @@ public class ClientesModel {
 	private String nombre;
 	private String apellido;
 	private String email;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id_remitente")
+	private ArrayList<MensajesModel> rem_mensajes;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatario")
+	private ArrayList<MensajesModel> des_mensajes;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id_remitente")
+	private ArrayList<TransferenciasModel> rem_transferencias;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatario")
+	private ArrayList<TransferenciasModel> des_transferencias;
 	
 //	GETETERS & SETTERS
 	public long getId() {
