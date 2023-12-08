@@ -16,11 +16,11 @@ public class MensajesModel {
 	@Column(unique=true, nullable=false)
 	private long id;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name= "id_remitente",referencedColumnName = "id")
 	private ClientesModel id_remitente;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name= "id_destinatario",referencedColumnName = "id")
 	private ClientesModel id_destinatario;
 	
