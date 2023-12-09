@@ -2,7 +2,6 @@ package com.mvc.controllers;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,7 @@ public class ClientesController {
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public ResponseEntity<Void>  actualizarCliente(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+	public ResponseEntity<Void>  actualizarCliente(@PathVariable("id") long id, @RequestBody ClientesModel cambios) {
 		boolean resultado = this.clientesService.actualizarCliente(id, cambios);
 		if(resultado) {
 //			devuelve una respuesta Ok vacía

@@ -1,7 +1,6 @@
 package com.mvc.services;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.mvc.repositories.ClientesRepository;
 
 import com.mvc.models.ClientesModel;
-import com.mvc.models.GestoresModel;
 
 @Service
 public class ClientesService {
@@ -50,37 +48,25 @@ public class ClientesService {
 		}
 	}
 	
-	public boolean actualizarCliente(long id, Map<String, Object> cambios) {
+	public boolean actualizarCliente(long id, ClientesModel cambios) {
 		try {
 			Optional<ClientesModel> clienteExiste = clientesRepository.findById(id);
 	
-	        if (clienteExiste.isPresent()) {
-	        	ClientesModel cliente = clienteExiste.get();
-	
-	            cambios.forEach((campo, valor) -> {
-	                switch (campo) {
-	                	case "id":
-	                		cliente.setId((long) valor);
-	                		break;
-	                	case "id_gestor":
-	                		cliente.setId_gestor((GestoresModel) valor);
-	                		break;
-	                    case "nombre":
-	                    	cliente.setNombre((String) valor);
-	                        break;
-	                    case "apellido":
-	                    	cliente.setApellido((String) valor);
-	                        break;
-	                    case "email":
-	                    	cliente.setEmail((String) valor);
-	                        break;
-	                }
-	            });
-	            clientesRepository.save(cliente);
-	            return true;
-	        } else {
-	        	return false;
-	        }
+			if (clienteExiste.isPresent()) {
+				ClientesModel cliente = clienteExiste.get();
+				ClientesModel updatedCliente = new ClientesModel(
+						cliente.getId(),
+						cambios.getNombre(),
+						cambios.getApellido(),
+						cambios.getEmail(),
+						cambios.getGestor()
+						);
+				clientesRepository.save(updatedCliente);
+				
+				return true;
+			}
+			
+			return false;
 	    }catch (Exception err){
 	    	return false;
 	    }

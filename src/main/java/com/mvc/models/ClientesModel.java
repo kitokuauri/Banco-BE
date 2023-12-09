@@ -4,6 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 
+
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 
@@ -12,12 +15,30 @@ import jakarta.persistence.*;
 @Table(name= "cliente")
 public class ClientesModel {
 	
+public ClientesModel() {}
+	
+	public ClientesModel(Long id, String nombre, String apellido, String email, GestoresModel id_gestor) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.id_gestor = id_gestor;
+	}
+	
+	@OneToMany(mappedBy="id_remitente")
+	private Set<MensajesModel> rem_mensajes;
+	@OneToMany(mappedBy="id_destinatario")
+	private Set<MensajesModel> des_mensajes;
+	@OneToMany(mappedBy="id_remitente")
+	private Set<TransferenciasModel> rem_transferencias;
+	@OneToMany(mappedBy="id_destinatario")
+	private Set<TransferenciasModel> des_transferencias;
+	
 //	atributos
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
 	private long id; 
-	
 
 	@ManyToOne
 	@JoinColumn(name= "id_gestor", referencedColumnName = "id")
@@ -56,6 +77,13 @@ public class ClientesModel {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public GestoresModel getGestor() {
+		return this.id_gestor;
+	}
+	
+	public void setGestor(GestoresModel gestor) {
+		this.id_gestor = gestor;
 	}
 
 
