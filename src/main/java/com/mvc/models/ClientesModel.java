@@ -18,8 +18,8 @@ public class ClientesModel {
 	@Column(unique=true, nullable=false)
 	private long id; 
 	
-//	Operaciones en cascada. DETACH => Deja a los clientes sin gestor si este es eliminado.
-	@ManyToOne(cascade = CascadeType.REMOVE)
+
+	@ManyToOne
 	@JoinColumn(name= "id_gestor", referencedColumnName = "id")
 	private GestoresModel id_gestor;
 	private String nombre;

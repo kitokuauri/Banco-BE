@@ -16,11 +16,11 @@ public class TransferenciasModel {
 	@Column(unique=true, nullable=false)
 	private long id;
 	
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name= "id_remitente",referencedColumnName = "id")
 	private ClientesModel id_remitente;
 	
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name= "id_destinatario",referencedColumnName = "id")
 	private ClientesModel id_destinatario;
 	
