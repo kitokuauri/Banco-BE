@@ -1,11 +1,14 @@
 package com.mvc.controllers;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mvc.services.ClientesService;
 import com.mvc.models.ClientesModel;
@@ -19,21 +22,35 @@ public class ClientesController {
 	@Autowired
 	ClientesService clientesService;
 	
+//	ResponseEntity devuelve una Response Ok (200)
 	@GetMapping()
-	public ArrayList<ClientesModel> obtenerClientes(){
-		return clientesService.obtenerClientes();
+	public ResponseEntity<ArrayList<ClientesModel>> obtenerClientes(){
+		return ResponseEntity.ok(clientesService.obtenerClientes());
 	}
 	
 	@PostMapping()
 //	RequestBody se utiliza para capturar los parámetros de la URL
-	public ClientesModel guardarCliente(@RequestBody ClientesModel cliente) {
-		return this.clientesService.guardarCliente(cliente);
+	public ResponseEntity<Void> guardarCliente(@RequestBody ClientesModel cliente,  UriComponentsBuilder ucb) {
+		ClientesModel savedCliente = this.clientesService.guardarCliente(cliente);
+//		UriComponentsBuilder se utiliza para crear la URI/URL de respuesta una vez creado el registro
+		URI locationOfNewCashCard = ucb
+				.path("cliente/{id}")
+				.buildAndExpand(savedCliente.getId())
+				.toUri();
+//		ResponseEntity devuelve una Response CREATED (201)
+		return ResponseEntity.created(locationOfNewCashCard).build();
 	}
 	
 	@GetMapping(path="/{id}")
 //	PathVariable captura la variable de la uri
-	public Optional<ClientesModel> obtenerClientePorId(@PathVariable("id") long id){
-		return this.clientesService.obtenerPorId(id);
+//	ResponseEntity devuelve una Response con el Cliente OK (200) o NOT FOUND (404)
+	public ResponseEntity<Optional<ClientesModel>> obtenerClientePorId(@PathVariable("id") long id){
+		Optional<ClientesModel> cliente = this.clientesService.obtenerPorId(id);
+		if (cliente != null) {
+			return ResponseEntity.ok(cliente);
+		}
+		
+		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping(path="/query")
@@ -42,10 +59,15 @@ public class ClientesController {
 	}
 	
 	@DeleteMapping(path="/{id}")
-	public void eliminarPorId(@PathVariable("id") long id) {
+	public ResponseEntity<Void> eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.clientesService.eliminarCliente(id);
-		if(!resultado) {
-			System.out.println("No se pudo eliminar el cliente");
+		if(resultado) {
+//			devuelve una respuesta Ok vacía
+			return ResponseEntity.noContent().build();	
+		} else {
+//			devuelve una respuesta de página no encontrada.
+//			En la operación de borrado indica que la operación no tuvo éxito
+			return ResponseEntity.notFound().build();
 		}
 	}
 	

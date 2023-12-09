@@ -1,11 +1,14 @@
 package com.mvc.controllers;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mvc.models.TransferenciasModel;
 import com.mvc.services.TransferenciasService;
@@ -19,20 +22,32 @@ public class TransferenciasController {
 	TransferenciasService transferenciasService;
 	
 	@GetMapping()
-	public ArrayList<TransferenciasModel> obtenerTransferencias(){
-		return transferenciasService.obtenerTransferencias();
+	public ResponseEntity<ArrayList<TransferenciasModel>> obtenerTransferencias(){
+		return ResponseEntity.ok(transferenciasService.obtenerTransferencias());
 	}
 	
 	@PostMapping()
 //	RequestBody se utiliza para capturar los parámetros de la URL
-	public TransferenciasModel guardarTransferencia(@RequestBody TransferenciasModel transferencia) {
-		return this.transferenciasService.guardarTransferencia(transferencia);
+	public ResponseEntity<Void> guardarTransferencia(@RequestBody TransferenciasModel transferencia,  UriComponentsBuilder ucb) {
+		TransferenciasModel savedTransferencia = this.transferenciasService.guardarTransferencia(transferencia);
+//		UriComponentsBuilder se utiliza para crear la URI/URL de respuesta una vez creado el registro
+		URI locationOfNewCashCard = ucb
+				.path("cliente/{id}")
+				.buildAndExpand(savedTransferencia.getId())
+				.toUri();
+//		ResponseEntity devuelve una Response CREATED (201)
+		return ResponseEntity.created(locationOfNewCashCard).build();
 	}
 	
 	@GetMapping(path="/{id}")
 //	PathVariable captura la variable de la uri
-	public Optional<TransferenciasModel> obtenerTransferenciaPorId(@PathVariable("id") long id){
-		return this.transferenciasService.obtenerPorId(id);
+	public ResponseEntity<Optional<TransferenciasModel>> obtenerTransferenciaPorId(@PathVariable("id") long id){
+		Optional<TransferenciasModel> transferencia = this.transferenciasService.obtenerPorId(id);
+		if (transferencia != null) {
+			return ResponseEntity.ok(transferencia);
+		}
+		
+		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping(path="/r_query")
@@ -46,10 +61,15 @@ public class TransferenciasController {
 	}
 	
 	@DeleteMapping(path="/{id}")
-	public void eliminarPorId(@PathVariable("id") long id) {
+	public ResponseEntity<Void> eliminarPorId(@PathVariable("id") long id) {
 		boolean resultado = this.transferenciasService.eliminarTransferencia(id);
-		if(!resultado) {
-			System.out.println("No se pudo eliminar la transferencia");
+		if(resultado) {
+//			devuelve una respuesta Ok vacía
+			return ResponseEntity.noContent().build();	
+		} else {
+//			devuelve una respuesta de página no encontrada.
+//			En la operación de borrado indica que la operación no tuvo éxito
+			return ResponseEntity.notFound().build();
 		}
 	}
 	
