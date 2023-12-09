@@ -43,7 +43,7 @@ public class TransferenciasController {
 //	PathVariable captura la variable de la uri
 	public ResponseEntity<Optional<TransferenciasModel>> obtenerTransferenciaPorId(@PathVariable("id") long id){
 		Optional<TransferenciasModel> transferencia = this.transferenciasService.obtenerPorId(id);
-		if (transferencia != null) {
+		if (transferencia.isPresent()) {
 			return ResponseEntity.ok(transferencia);
 		}
 		
@@ -74,10 +74,15 @@ public class TransferenciasController {
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public void actualizarTransferencia(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+	public ResponseEntity<Void> actualizarTransferencia(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.transferenciasService.actualizarTransferencia(id, cambios);
-		if(!resultado) {
-			System.out.println("No se pudo actualizar la transferencia");
+		if(resultado) {
+//			devuelve una respuesta Ok vacía
+			return ResponseEntity.noContent().build();	
+		} else {
+//			devuelve una respuesta de página no encontrada.
+//			En la operación de borrado indica que la operación no tuvo éxito
+			return ResponseEntity.notFound().build();
 		}
 	}
 	

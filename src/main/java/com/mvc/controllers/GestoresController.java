@@ -52,7 +52,7 @@ public class GestoresController {
 //	PathVariable captura la variable de la uri
 	public ResponseEntity<Optional<GestoresModel>> obtenerGestorPorId(@PathVariable("id") long id){
 		Optional<GestoresModel> gestor = this.gestoresService.obtenerPorId(id);
-		if (gestor != null) {
+		if (gestor.isPresent()) {
 			return ResponseEntity.ok(gestor);
 		}
 		
@@ -78,11 +78,15 @@ public class GestoresController {
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public void actualizarGestor(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+	public ResponseEntity<Void> actualizarGestor(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.gestoresService.actualizarGestor(id, cambios);
-		
-		if(!resultado) {
-			System.out.println("No se pudo actualizar el gestor");
+		if(resultado) {
+//			devuelve una respuesta Ok vacía
+			return ResponseEntity.noContent().build();	
+		} else {
+//			devuelve una respuesta de página no encontrada.
+//			En la operación de borrado indica que la operación no tuvo éxito
+			return ResponseEntity.notFound().build();
 		}
 	}
 	

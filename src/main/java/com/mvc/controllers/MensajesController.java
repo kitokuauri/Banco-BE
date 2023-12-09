@@ -43,9 +43,10 @@ public class MensajesController {
 //	PathVariable captura la variable de la uri
 	public ResponseEntity<Optional<MensajesModel>> obtenerMensajePorId(@PathVariable("id") long id){
 		Optional<MensajesModel> mensaje = this.mensajesService.obtenerPorId(id);
-		if (mensaje != null) {
+		if (mensaje.isPresent()) {
 			return ResponseEntity.ok(mensaje);
 		}
+		
 		return ResponseEntity.notFound().build();
 	}
 	
@@ -73,10 +74,15 @@ public class MensajesController {
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public void actualizarMensaje(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+	public ResponseEntity<Void> actualizarMensaje(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.mensajesService.actualizarMensaje(id, cambios);
-		if(!resultado) {
-			System.out.println("No se pudo actualizar el mensaje");
+		if(resultado) {
+//			devuelve una respuesta Ok vacía
+			return ResponseEntity.noContent().build();	
+		} else {
+//			devuelve una respuesta de página no encontrada.
+//			En la operación de borrado indica que la operación no tuvo éxito
+			return ResponseEntity.notFound().build();
 		}
 	}
 	

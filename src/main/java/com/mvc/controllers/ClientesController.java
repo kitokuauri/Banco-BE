@@ -46,7 +46,7 @@ public class ClientesController {
 //	ResponseEntity devuelve una Response con el Cliente OK (200) o NOT FOUND (404)
 	public ResponseEntity<Optional<ClientesModel>> obtenerClientePorId(@PathVariable("id") long id){
 		Optional<ClientesModel> cliente = this.clientesService.obtenerPorId(id);
-		if (cliente != null) {
+		if (cliente.isPresent()) {
 			return ResponseEntity.ok(cliente);
 		}
 		
@@ -72,10 +72,15 @@ public class ClientesController {
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public void actualizarCliente(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+	public ResponseEntity<Void>  actualizarCliente(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
 		boolean resultado = this.clientesService.actualizarCliente(id, cambios);
-		if(!resultado) {
-			System.out.println("No se pudo actualizar el cliente");
+		if(resultado) {
+//			devuelve una respuesta Ok vacía
+			return ResponseEntity.noContent().build();	
+		} else {
+//			devuelve una respuesta de página no encontrada.
+//			En la operación de borrado indica que la operación no tuvo éxito
+			return ResponseEntity.notFound().build();
 		}
 	}
 	
