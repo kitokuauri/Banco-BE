@@ -1,8 +1,6 @@
 package com.mvc.services;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +27,12 @@ public class MensajesService {
 		return mensajesRepository.findById(id);
 	}
 	
-	public ArrayList<MensajesModel> obtenerPorRemitente(String remitente){
-		return mensajesRepository.findByRemitente(remitente);
+	public ArrayList<MensajesModel> obtenerPorIdRemitente(ClientesModel id_remitente){
+		return mensajesRepository.findByRemitente(id_remitente);
 	}
 	
-	public ArrayList<MensajesModel> obtenerPorDestinatario(String destinatario){
-		return mensajesRepository.findByDestinatario(destinatario);
+	public ArrayList<MensajesModel> obtenerPorIdDestinatario(ClientesModel id_destinatario){
+		return mensajesRepository.findByDestinatario(id_destinatario);
 	}
 	
 	public ArrayList<MensajesModel> obtenerMensajes(){
@@ -54,46 +52,6 @@ public class MensajesService {
 		}
 	}
 	
-	public boolean actualizarMensaje(long id, Map<String, Object> cambios) {
-        try {
-			Optional<MensajesModel> mensajeExiste = mensajesRepository.findById(id);
-	
-	        if (mensajeExiste.isPresent()) {
-	        	MensajesModel mensaje = mensajeExiste.get();
-	
-	            cambios.forEach((campo, valor) -> {
-	                switch (campo) {
-	                	case "id":
-	                		mensaje.setId((long) valor);
-	                		break;
-	                	case "id_remitente":
-	                		mensaje.setId_remitente((ClientesModel) valor);
-	                		break;
-	                    case "remitente":
-	                    	mensaje.setRemitente((String) valor);
-	                        break;
-	                    case "id_destinatario":
-	                    	mensaje.setId_destinatario((ClientesModel) valor);
-	                		break;
-	                    case "destinatario":
-	                    	mensaje.setDestinatario((String) valor);
-	                        break;
-	                    case "mensaje":
-	                    	mensaje.setMensaje((String) valor);
-	                        break;
-	                    case "fecha":
-	                    	mensaje.setFecha((Date) valor);
-	                    	break;
-	                }
-	            });
-	            mensajesRepository.save(mensaje);
-	            return true;
-	        } else {
-	        	return false;
-	        }
-	    }catch (Exception err){
-	    	return false;
-	    }
-    }
+
 	
 }

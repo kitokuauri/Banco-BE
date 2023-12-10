@@ -23,9 +23,7 @@ public class MensajesModel {
 	@ManyToOne
 	@JoinColumn(name= "id_destinatario",referencedColumnName = "id")
 	private ClientesModel id_destinatario;
-	
-	private String remitente;
-	private String destinatario;
+
 	private String mensaje;
 	private Date fecha;
 	
@@ -48,18 +46,7 @@ public class MensajesModel {
 	public void setId_destinatario(ClientesModel id_destinatario) {
 		this.id_destinatario = id_destinatario;
 	}
-	public String getRemitente() {
-		return remitente;
-	}
-	public void setRemitente(String remitente) {
-		this.remitente = remitente;
-	}
-	public String getDestinatario() {
-		return destinatario;
-	}
-	public void setDestinatario(String destinatario) {
-		this.destinatario = destinatario;
-	}
+
 	public String getMensaje() {
 		return mensaje;
 	}

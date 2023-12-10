@@ -25,13 +25,13 @@ public ClientesModel() {}
 		this.id_gestor = id_gestor;
 	}
 	
-	@OneToMany(mappedBy="id_remitente")
+	@OneToMany(mappedBy="id_remitente", cascade = CascadeType.REMOVE)
 	private Set<MensajesModel> rem_mensajes;
-	@OneToMany(mappedBy="id_destinatario")
+	@OneToMany(mappedBy="id_destinatario", cascade = CascadeType.REMOVE)
 	private Set<MensajesModel> des_mensajes;
-	@OneToMany(mappedBy="id_remitente")
+	@OneToMany(mappedBy="id_remitente", cascade = CascadeType.REMOVE)
 	private Set<TransferenciasModel> rem_transferencias;
-	@OneToMany(mappedBy="id_destinatario")
+	@OneToMany(mappedBy="id_destinatario", cascade = CascadeType.REMOVE)
 	private Set<TransferenciasModel> des_transferencias;
 	
 //	atributos

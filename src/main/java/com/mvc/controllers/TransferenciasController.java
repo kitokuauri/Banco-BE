@@ -2,7 +2,6 @@ package com.mvc.controllers;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.mvc.models.ClientesModel;
 import com.mvc.models.TransferenciasModel;
 import com.mvc.services.TransferenciasService;
 
@@ -51,13 +51,13 @@ public class TransferenciasController {
 	}
 	
 	@GetMapping(path="/r_query")
-	public ArrayList<TransferenciasModel> obtenerTransferenciaPorRemitente(@RequestParam("remitente") String remitente){
-		return this.transferenciasService.obtenerPorRemitente(remitente);
+	public ArrayList<TransferenciasModel> obtenerTransferenciaPorRemitente(@RequestParam("remitente") ClientesModel id_remitente){
+		return this.transferenciasService.obtenerPorIdRemitente(id_remitente);
 	}
 	
 	@GetMapping(path="/d_query")
-	public ArrayList<TransferenciasModel> obtenerTransferenciaPorDestinatario(@RequestParam("destinatario") String destinatario){
-		return this.transferenciasService.obtenerPorDestinatario(destinatario);
+	public ArrayList<TransferenciasModel> obtenerTransferenciaPorDestinatario(@RequestParam("destinatario") ClientesModel id_destinatario){
+		return this.transferenciasService.obtenerPorIdDestinatario(id_destinatario);
 	}
 	
 	@DeleteMapping(path="/{id}")
@@ -71,21 +71,7 @@ public class TransferenciasController {
 //			En la operación de borrado indica que la operación no tuvo éxito
 			return ResponseEntity.notFound().build();
 		}
-	}
-	
-	@PatchMapping(path = "/{id}")
-	public ResponseEntity<Void> actualizarTransferencia(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
-		boolean resultado = this.transferenciasService.actualizarTransferencia(id, cambios);
-		if(resultado) {
-//			devuelve una respuesta Ok vacía
-			return ResponseEntity.noContent().build();	
-		} else {
-//			devuelve una respuesta de página no encontrada.
-//			En la operación de borrado indica que la operación no tuvo éxito
-			return ResponseEntity.notFound().build();
-		}
-	}
-	
+	}	
 	
 	
 }
