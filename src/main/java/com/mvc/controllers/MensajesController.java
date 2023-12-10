@@ -32,7 +32,7 @@ public class MensajesController {
 		MensajesModel savedMensaje = this.mensajesService.guardarMensaje(mensaje);
 //		UriComponentsBuilder se utiliza para crear la URI/URL de respuesta una vez creado el registro
 		URI locationOfNewCashCard = ucb
-				.path("cliente/{id}")
+				.path("mensaje/{id}")
 				.buildAndExpand(savedMensaje.getId())
 				.toUri();
 //		ResponseEntity devuelve una Response CREATED (201)
@@ -50,15 +50,6 @@ public class MensajesController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping(path="/r_query")
-	public ArrayList<MensajesModel> obtenerMensajePorIdRemitente(@RequestParam("id_remitente") ClientesModel id_remitente){
-		return this.mensajesService.obtenerPorIdRemitente(id_remitente);
-	}
-	
-	@GetMapping(path="/d_query")
-	public ArrayList<MensajesModel> obtenerMensajePorIdDestinatario(@RequestParam("id_destinatario") ClientesModel id_destinatario){
-		return this.mensajesService.obtenerPorIdDestinatario(id_destinatario);
-	}
 	
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<Void> eliminarPorId(@PathVariable("id") long id) {

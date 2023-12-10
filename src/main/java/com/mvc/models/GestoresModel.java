@@ -7,6 +7,15 @@ import jakarta.persistence.*;
 @Entity
 @Table(name= "gestor")
 public class GestoresModel {
+	
+	public GestoresModel (Long id, String nombre, String apellido, String email, int edad, double salario) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.edad = edad;
+		this.salario = salario;
+	}
 
 //	atributos
 	@Id
@@ -21,7 +30,9 @@ public class GestoresModel {
 	private double salario;
 	
 
-//	GETTERS & SETTERS
+
+
+	//	GETTERS & SETTERS
 	public long getId() {
 		return id;
 	}

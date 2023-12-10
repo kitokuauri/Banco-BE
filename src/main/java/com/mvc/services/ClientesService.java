@@ -28,7 +28,7 @@ public class ClientesService {
 	}
 	
 	public ArrayList<ClientesModel> obtenerPorNombre(String nombre){
-		return clientesRepository.findByNombre(nombre);
+		return clientesRepository.searchByNombreLike(nombre);
 	}
 	
 	public ArrayList<ClientesModel> obtenerClientes(){

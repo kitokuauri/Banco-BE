@@ -32,7 +32,7 @@ public class TransferenciasController {
 		TransferenciasModel savedTransferencia = this.transferenciasService.guardarTransferencia(transferencia);
 //		UriComponentsBuilder se utiliza para crear la URI/URL de respuesta una vez creado el registro
 		URI locationOfNewCashCard = ucb
-				.path("cliente/{id}")
+				.path("transferencia/{id}")
 				.buildAndExpand(savedTransferencia.getId())
 				.toUri();
 //		ResponseEntity devuelve una Response CREATED (201)
@@ -50,15 +50,6 @@ public class TransferenciasController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping(path="/r_query")
-	public ArrayList<TransferenciasModel> obtenerTransferenciaPorRemitente(@RequestParam("remitente") ClientesModel id_remitente){
-		return this.transferenciasService.obtenerPorIdRemitente(id_remitente);
-	}
-	
-	@GetMapping(path="/d_query")
-	public ArrayList<TransferenciasModel> obtenerTransferenciaPorDestinatario(@RequestParam("destinatario") ClientesModel id_destinatario){
-		return this.transferenciasService.obtenerPorIdDestinatario(id_destinatario);
-	}
 	
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<Void> eliminarPorId(@PathVariable("id") long id) {

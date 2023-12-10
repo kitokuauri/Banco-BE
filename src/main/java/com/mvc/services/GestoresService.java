@@ -1,7 +1,6 @@
 package com.mvc.services;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class GestoresService {
 	}
 	
 	public ArrayList<GestoresModel> obtenerPorNombre(String nombre){
-		return gestoresRepository.findByNombre(nombre);
+		return gestoresRepository.searchByNombreLike(nombre);
 	}
 	
 	public ArrayList<GestoresModel> obtenerGestores(){
@@ -48,37 +47,26 @@ public class GestoresService {
 		}
 	}
 	
-	public boolean actualizarGestor(long id, Map<String, Object> cambios) {
+	public boolean actualizarGestor(long id, GestoresModel cambios) {
         try {
 			Optional<GestoresModel> gestorExiste = gestoresRepository.findById(id);
 	
-	        if (gestorExiste.isPresent()) {
-	            GestoresModel gestor = gestorExiste.get();
-	
-	            cambios.forEach((campo, valor) -> {
-	                switch (campo) {
-	                    case "nombre":
-	                        gestor.setNombre((String) valor);
-	                        break;
-	                    case "apellido":
-	                        gestor.setApellido((String) valor);
-	                        break;
-	                    case "edad":
-	                        gestor.setEdad((int) valor);
-	                        break;
-	                    case "email":
-	                        gestor.setEmail((String) valor);
-	                        break;
-	                    case "salario":
-	                        gestor.setSalario((double) valor);
-	                        break;
-	                }
-	            });
-	            gestoresRepository.save(gestor);
-	            return true;
-	        } else {
-	        	return false;
-	        }
+			if (gestorExiste.isPresent()) {
+				GestoresModel gestor = gestorExiste.get();
+				GestoresModel updatedGestor = new GestoresModel(
+						gestor.getId(),
+						cambios.getNombre(),
+						cambios.getApellido(),
+						cambios.getEmail(),
+						cambios.getEdad(),
+						cambios.getSalario()
+						);
+				gestoresRepository.save(updatedGestor);
+				
+				return true;
+			}
+			
+			return false;
         }catch (Exception err){
         	return false;
         }

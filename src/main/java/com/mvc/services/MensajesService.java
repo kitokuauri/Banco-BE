@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mvc.models.ClientesModel;
 import com.mvc.models.MensajesModel;
 import com.mvc.repositories.MensajesRepository;
 
@@ -25,14 +24,6 @@ public class MensajesService {
 //	cuando tratamos con id => clase Optional
 	public Optional<MensajesModel> obtenerPorId(long id) {
 		return mensajesRepository.findById(id);
-	}
-	
-	public ArrayList<MensajesModel> obtenerPorIdRemitente(ClientesModel id_remitente){
-		return mensajesRepository.findByRemitente(id_remitente);
-	}
-	
-	public ArrayList<MensajesModel> obtenerPorIdDestinatario(ClientesModel id_destinatario){
-		return mensajesRepository.findByDestinatario(id_destinatario);
 	}
 	
 	public ArrayList<MensajesModel> obtenerMensajes(){

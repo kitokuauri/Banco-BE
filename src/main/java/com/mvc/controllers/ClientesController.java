@@ -54,6 +54,9 @@ public class ClientesController {
 	
 	@GetMapping(path="/query")
 	public ArrayList<ClientesModel> obtenerClientesPorNombre(@RequestParam("nombre") String nombre){
+		if(nombre == "") {
+			return new ArrayList<ClientesModel>();
+		}
 		return this.clientesService.obtenerPorNombre(nombre);
 	}
 	

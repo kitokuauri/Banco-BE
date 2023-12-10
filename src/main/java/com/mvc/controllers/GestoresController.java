@@ -2,7 +2,6 @@ package com.mvc.controllers;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class GestoresController {
 		GestoresModel savedGestor = this.gestoresService.guardarGestor(gestor);
 //		UriComponentsBuilder se utiliza para crear la URI/URL de respuesta una vez creado el registro
 		URI locationOfNewCashCard = ucb
-				.path("cliente/{id}")
+				.path("gestor/{id}")
 				.buildAndExpand(savedGestor.getId())
 				.toUri();
 //		ResponseEntity devuelve una Response CREATED (201)
@@ -61,6 +60,9 @@ public class GestoresController {
 	
 	@GetMapping(path="/query")
 	public ArrayList<GestoresModel> obtenerGestorPorNombre(@RequestParam("nombre") String nombre){
+		if(nombre == "") {
+			return new ArrayList<GestoresModel>();
+		}
 		return this.gestoresService.obtenerPorNombre(nombre);
 	}
 	
@@ -78,7 +80,7 @@ public class GestoresController {
 	}
 	
 	@PatchMapping(path = "/{id}")
-	public ResponseEntity<Void> actualizarGestor(@PathVariable("id") long id, @RequestBody Map<String, Object> cambios) {
+	public ResponseEntity<Void> actualizarGestor(@PathVariable("id") long id, @RequestBody GestoresModel cambios) {
 		boolean resultado = this.gestoresService.actualizarGestor(id, cambios);
 		if(resultado) {
 //			devuelve una respuesta Ok vacía
