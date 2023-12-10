@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 @Table(name= "gestor")
 public class GestoresModel {
 	
+	public GestoresModel() {}
+	
 	public GestoresModel (Long id, String nombre, String apellido, String email, int edad, double salario) {
 		this.id = id;
 		this.nombre = nombre;

@@ -15,7 +15,7 @@ import jakarta.persistence.*;
 @Table(name= "cliente")
 public class ClientesModel {
 	
-public ClientesModel() {}
+	public ClientesModel() {}
 	
 	public ClientesModel(Long id, String nombre, String apellido, String email, GestoresModel id_gestor) {
 		this.id = id;
